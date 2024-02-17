@@ -1,9 +1,7 @@
-# Import packages.
 import cvxpy as cp
 import numpy as np
-# import pandas as pd
 
-# Generate a random non-trivial linear program.
+
 n = 9
 s = 1
 t = 9
@@ -38,41 +36,25 @@ C = np.array(
       for j in range(1, n + 1)]
      for i in range(1, n + 1)
      ])
-print(A)
-print('-'*20)
-print(C)
-
-R = cp.Variable((n, n), name='Transport_Amount', integer=True)
+d = np.zeros((1, n))
+d[0, s-1] = -r
+d[0, t-1] = r
+h = np.ones((1, n))
+R = cp.Variable((n, n), integer=True)
 
 objective = cp.Minimize(cp.trace(C.T @ R))
 constraints = [
     0 <= R,
     R <= A,
-    cp.sum(R, axis=0) - cp.sum(R.T, axis=1) == 0,
-    # cp.sum(R, axis=0)[s-1] == r,
-    # cp.sum(R, axis=1)[t-1] == r,
+    h @ R - h @ R.T == d,
 ]
-
-prob = cp.Problem(objective,
-                  constraints)
+prob = cp.Problem(objective, constraints)
 prob.solve()
-# conflicting_constraints = []
-# for constraint in constraints:
-#     dual_val = constraint.dual_value
-#     if dual_val != 0:
-#         conflicting_constraints.append(constraint)
-#
-# # Print the conflicting constraints
-# if conflicting_constraints:
-#     print("Conflicting constraints:")
-#     for constraint in conflicting_constraints:
-#         print(constraint)
-# else:
-#     print("No conflicting constraints")
 
-# Print result.
 print("\nThe optimal value is", prob.value)
-print("A solution R")
-print(R.value)
-# print("A dual solution is")
-# print(prob.constraints[0].dual_value)
+print('-' * 30)
+for i in range(1, n + 1):
+    for j in range(1, n + 1):
+        if R.value[i-1, j-1] != 0:
+            print(f'edge: {i}{j}, cost: {C[i-1, j-1]}, capacity: {A[i-1, j-1]}, '
+                  f'transport through: {int(R.value[i-1, j-1])}')
