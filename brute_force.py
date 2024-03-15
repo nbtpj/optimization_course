@@ -1,3 +1,5 @@
+import csv
+
 import cvxpy
 import cvxpy as cp
 import numpy as np
@@ -103,7 +105,9 @@ if __name__ == '__main__':
 
     bf_theta, bf_runtime = brute_force_sol(x, y_with_outliers, a, N, args)
     sccf_theta, sccf_runtime = sccf_sol(x, y_with_outliers, a, N, args)
-
+    with open('results.csv', 'a+') as csvfile:
+        csvfile.write(
+            f"{N}, {abs(bf_theta - true_theta)}, {abs(sccf_theta - true_theta)}, {bf_runtime:.2f}, {sccf_runtime:.2f}\n")
     print('-' * 30)
     print(
         f'Difference with golden theta: brute force: {abs(bf_theta - true_theta)}; sccf: {abs(sccf_theta - true_theta)}')

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#pip install -r ./requirements.txt
 Ns=(
   10
   11
@@ -13,4 +14,4 @@ do
   to_run+="--N $n;"
 done
 
-echo "$to_run" | tr ';' '\n' | xargs -P 2 -I bash -c "python .\brute_force.py --n_alias 2 --maxiter 25 --step_size 0.2 "
+echo "$to_run" | tr ';' '\n' | xargs -P 2 -I {} bash -c "python ./brute_force.py --n_alias 2 --maxiter 25 --step_size 0.2 {}"
