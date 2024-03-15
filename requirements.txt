@@ -1,0 +1,5 @@
+numpy
+cvxpy[CBC,CVXOPT,GLOP,GLPK,GUROBI,MOSEK,PDLP,SCIP,XPRESS]
+matplotlib
+git+https://github.com/cvxgrp/sccf.git
+tqdm
