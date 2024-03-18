@@ -1,6 +1,8 @@
 """
 =============== Author Implementation SCCF ======================
 original code: https://github.com/cvxgrp/sccf/blob/master/sccf/sccf.py
+we fix a possible bug in line 341, in which lam can be possibly negative
+
 
 =============== Integrated with Brute Force Solver [our implementation] ==============
 Important: you may need mosek license. See instruction at https://www.mosek.com/resources/getting-started/
